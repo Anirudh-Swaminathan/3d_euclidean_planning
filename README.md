@@ -32,6 +32,8 @@ These are the source files that I implemented to learn and understand the tools 
  - src/maps -> These contains the different 3D environments with their AABB obstacles that is used for the project
 
 ### Output Folders
+ - src/path_images     -> This folder contains the image of all the environments along with the computed path from the start to the end node. Each sub-directory contains the image for that specific algorithm. Sub-directories are a_star/ greedy/ and rrt_star/
+ - src/path_properties -> This folder contains the properties, such as shortest path, path length and total number of considered nodes for each of the 7 environments. Each sub-directory contains the details for that specific algorithm. Sub-directories are a_star/ greedy/ and rrt_star/
 
 ### Instructions for running the algorithm
  - Install all the dependencies by running
