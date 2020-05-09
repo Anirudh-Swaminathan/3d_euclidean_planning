@@ -43,7 +43,7 @@ These are the source files that I implemented to learn and understand the tools 
  - Install OMPL library with Python Bindings
    Detailed instrcutions are provided [here](https://ompl.kavrakilab.org/installation.html)
 
- - Run the main program using teh following command
+ - Run the main program using the following command
  ```bash
  python main.py
  ```
