@@ -1,4 +1,6 @@
-greedy algorithm applied on single_cube map with resolution 0.5 took 0.008506298065185547 seconds to plan.
+greedy algorithm applied on single_cube map with resolution 0.5 took 0.00840902328491211 seconds to plan.
+Successful Path?: False
+Final path has collisions?: True
 Reached Goal?: True
 Path Length: 8.000000000000004
 Number of nodes in path: 17

@@ -1,4 +1,6 @@
-greedy algorithm applied on room map with resolution 0.5 took 0.029674053192138672 seconds to plan.
+greedy algorithm applied on room map with resolution 0.5 took 0.017032861709594727 seconds to plan.
+Successful Path?: False
+Final path has collisions?: True
 Reached Goal?: True
 Path Length: 9.0
 Number of nodes in path: 19

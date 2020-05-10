@@ -1,4 +1,6 @@
-greedy algorithm applied on flappy_bird map with resolution 0.5 took 0.6869971752166748 seconds to plan.
+greedy algorithm applied on flappy_bird map with resolution 0.5 took 0.67751145362854 seconds to plan.
+Successful Path?: False
+Final path has collisions?: False
 Reached Goal?: False
 Path Length: 1000.0000000000002
 Number of nodes in path: 2001
