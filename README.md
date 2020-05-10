@@ -10,17 +10,15 @@ The following are the list of source files relevant to the proper implementation
 These are the main, final files for the project.
 
 - src/main.py           -> The main.py file which contains the final implementation of my planning algorithm in the given 3D continuous space
-- src/main_astar.py     -> The main file that calls the A_star_Planner.py to run the implementation of the A\* algorithm on the given environments
+- src/main_astar.py     -> The main file that uses the A\* class file to run the implementation of the A\* algorithm on the given environments
 - src/main_original.py  -> A copy of the original file provided to us, in case I make any mistakes
-- src/Planner.py        -> Provided greedy planner that failed on most of the cases.
-- src/A_star_Planner.py -> The planner file that implements A\* algorithm to search the continuous 3D space
+- src/Planner.py        -> Provided file that houses all the classes of all the different planners. This includes A\*, sample greedy planner, sample greedy planer with collision checking and RRT\* planner.
 
 ### Auxillary Source Files
 
 These are the auxillary source files that I implemented to build my final solution.
 
-- src/main_collision.py   -> This file calls CollisionPlanner.py. This is the same as the provided Planner.py, except that it now checks for collisions.
-- src/CollisionPlanner.py -> This is the extension of the given Planner.py, except it performs on the run collision checking, and a final collision check on the final path also.
+- src/main_collision.py   -> This file uses collision checking on the given greedy algorithm file
 
 ### Extra Source Files
 
