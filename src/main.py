@@ -86,95 +86,6 @@ def draw_block_list(ax, blocks):
         return h
 
 
-def intersect(start, end, box):
-    fst = 0
-    fet = 1
-    # print(box.shape)
-    bomin = aabb.minimum(box)
-    bomax = aabb.maximum(box)
-    # print(bomin.shape, bomax.shape)
-    for i in range(3):
-        bmin = bomin[i]
-        bmax = bomax[i]
-        si = start[i]
-        ei = end[i]
-        if si < ei:
-            if si > bmax or ei < bmin:
-                return False
-            di = ei - si
-            st = (bmin - si) / di if si < bmin else 0
-            et = (bmax - si) / di if ei > bmax else 1
-        else:
-            if ei > bmax or si < bmin:
-                return False
-            di = ei - si
-            st = (bmax - si) / di if si > bmax else 0
-            et = (bmin - si) / di if ei < bmin else 1
-        if st > fst:
-            fst = st
-        if et < fet:
-            fet = et
-        if fet < fst:
-            return False
-    return True
-
-
-def check_collision(bo, bl, pth):
-    """
-    A method to check for any collisions with objects in the path
-    :param bo: boundary
-    :param bl: blocks
-    :param pth: path to check collisions for
-    :return: collided boolean -> True if collision occured. False if not
-    """
-    node = pth[0]
-    # create a list of AABBs for pyrr
-    blk_list = list()
-    for k in range(bl.shape[0]):
-        mi = bl[k, :3].reshape(1, 3)
-        ma = bl[k, 3:6].reshape(1, 3)
-        ab = np.vstack((mi, ma))
-        abblk = aabb.create_from_points(ab)
-        # print(mi.shape, ma.shape, ab.shape, abblk.shape)
-        blk_list.append(abblk)
-
-    for i in range(1, len(pth)):
-        next = pth[i]
-        # Check if this direction is valid
-        # Checking if the considered node is outside the bounds
-        if (next[0] < bo[0, 0] or next[0] > bo[0, 3] or
-                next[1] < bo[0, 1] or next[1] > bo[0, 4] or
-                next[2] < bo[0, 2] or next[2] > bo[0, 5]):
-            print("Collision occurred at index: {}\n Path went out of bounds!".format(i))
-            return True
-
-        # create a ray from these 2 points
-        lse = line.create_from_points(node, next)
-        les = line.create_from_points(next, node)
-        rf = ray.create_from_line(lse)
-        rb = ray.create_from_line(les)
-
-        # loop through all the blocks in the environment
-        for k in range(bl.shape[0]):
-            # check if next node is inside some block
-            if (bl[k, 0] < next[0] < bl[k, 3] and
-                    bl[k, 1] < next[1] < bl[k, 4] and
-                    bl[k, 2] < next[2] < bl[k, 5]):
-                print("Collision occurred at index {}, for block index {}.\nNew node is inside the block!".format(i, k))
-                return True
-            # check if ray from node to next intersects AABB
-            # rfi = geometric_tests.ray_intersect_aabb(rf, blk_list[k])
-            # rbi = geometric_tests.ray_intersect_aabb(rb, blk_list[k])
-            rfi = intersect(node, next, blk_list[k])
-            rbi = intersect(node, next, blk_list[k])
-            if rfi and rbi:
-                # it means the collision occurred, and it occurred in-between the points
-                print("Collision occurred at index {}, for block index {}.\nCollision occurred between these 2 points!"
-                      .format(i, k))
-                return True
-    return False
-
-
 def runtest(mapfile, start, goal, bpi, bpp, a, p, mpn, verbose=True):
     """
   This function:
@@ -212,7 +123,8 @@ def runtest(mapfile, start, goal, bpi, bpp, a, p, mpn, verbose=True):
     # TODO: You should verify whether the path actually intersects any of the obstacles in continuous space
     # TODO: You can implement your own algorithm or use an existing library for segment and
     #       axis-aligned bounding box (AABB) intersection
-    collision = check_collision(boundary, blocks, path)
+    # collision = check_collision(boundary, blocks, path)
+    collision = False
     if collision:
         print("Collision Occurred!")
     else:
