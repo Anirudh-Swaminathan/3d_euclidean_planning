@@ -1,0 +1,5 @@
+greedy algorithm applied on monza map with resolution 0.5 took 0.007074594497680664 seconds to plan.
+Reached Goal?: True
+Path Length: 6.000000000000002
+Number of nodes in path: 13
+Number of nodes explored: 12

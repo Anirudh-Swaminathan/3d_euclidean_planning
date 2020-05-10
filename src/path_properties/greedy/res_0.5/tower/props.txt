@@ -1,0 +1,5 @@
+greedy algorithm applied on tower map with resolution 0.5 took 0.09494495391845703 seconds to plan.
+Reached Goal?: True
+Path Length: 19.999999999999996
+Number of nodes in path: 41
+Number of nodes explored: 40

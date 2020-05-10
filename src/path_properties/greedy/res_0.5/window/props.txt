@@ -1,0 +1,5 @@
+greedy algorithm applied on window map with resolution 0.5 took 0.053516387939453125 seconds to plan.
+Reached Goal?: True
+Path Length: 29.5
+Number of nodes in path: 60
+Number of nodes explored: 59
