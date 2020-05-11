@@ -1,4 +1,4 @@
-greedy algorithm applied on window map with resolution 0.5 took 0.05293536186218262 seconds to plan.
+greedy algorithm applied on window map with resolution 0.5 took 0.034600257873535156 seconds to plan.
 Successful Path?: False
 Final path has collisions?: True
 Reached Goal?: True

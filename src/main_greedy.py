@@ -152,10 +152,10 @@ def check_collision(bo, bl, pth):
             return True
 
         # create a ray from these 2 points
-        lse = line.create_from_points(node, next)
-        les = line.create_from_points(next, node)
-        rf = ray.create_from_line(lse)
-        rb = ray.create_from_line(les)
+        # lse = line.create_from_points(node, next)
+        # les = line.create_from_points(next, node)
+        # rf = ray.create_from_line(lse)
+        # rb = ray.create_from_line(les)
 
         # loop through all the blocks in the environment
         for k in range(bl.shape[0]):
@@ -169,12 +169,13 @@ def check_collision(bo, bl, pth):
             # rfi = geometric_tests.ray_intersect_aabb(rf, blk_list[k])
             # rbi = geometric_tests.ray_intersect_aabb(rb, blk_list[k])
             rfi = intersect(node, next, blk_list[k])
-            rbi = intersect(node, next, blk_list[k])
+            rbi = intersect(next, node, blk_list[k])
             if rfi and rbi:
                 # it means the collision occurred, and it occurred in-between the points
                 print("Collision occurred at index {}, for block index {}.\nCollision occurred between these 2 points!"
                       .format(i, k))
                 return True
+        node = next
     return False
 
 
@@ -211,6 +212,7 @@ def runtest(mapfile, start, goal, bpi, bpp, a, p, mpn, verbose=True):
         try:
             Path(pth_im).mkdir(parents=True, exist_ok=True)
             plt.savefig(pth_im + "path.png", bbox_inches='tight')
+            plt.show(block=True)
         except Exception as e:
             print("Error! Could not save image! Message is {}.".format(e))
 
@@ -326,9 +328,9 @@ if __name__ == "__main__":
     # property -> resolution for A*; sampling weight to goal for RRT*
     prop = 0.5
     test_single_cube(base_pth_img, base_pth_prop, algo, prop, True)
-    test_maze(base_pth_img, base_pth_prop, algo, prop, True)
-    test_flappy_bird(base_pth_img, base_pth_prop, algo, prop, True)
-    test_monza(base_pth_img, base_pth_prop, algo, prop, True)
-    test_window(base_pth_img, base_pth_prop, algo, prop, True)
-    test_tower(base_pth_img, base_pth_prop, algo, prop, True)
-    test_room(base_pth_img, base_pth_prop, algo, prop, True)
+    test_maze(base_pth_img, base_pth_prop, algo, prop, False)
+    test_flappy_bird(base_pth_img, base_pth_prop, algo, prop, False)
+    test_monza(base_pth_img, base_pth_prop, algo, prop, False)
+    test_window(base_pth_img, base_pth_prop, algo, prop, False)
+    test_tower(base_pth_img, base_pth_prop, algo, prop, False)
+    test_room(base_pth_img, base_pth_prop, algo, prop, False)

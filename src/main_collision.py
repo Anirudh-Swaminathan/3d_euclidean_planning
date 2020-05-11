@@ -258,6 +258,7 @@ def runtest(mapfile, start, goal, bpi, bpp, a, p, mpn, verbose=True):
         try:
             Path(pth_im).mkdir(parents=True, exist_ok=True)
             plt.savefig(pth_im + "path.png", bbox_inches='tight')
+            plt.show(block=True)
         except Exception as e:
             print("Error! Could not save image! Message is {}.".format(e))
 
@@ -373,9 +374,9 @@ if __name__ == "__main__":
     # property -> resolution for A*; sampling weight to goal for RRT*
     prop = 0.5
     test_single_cube(base_pth_img, base_pth_prop, algo, prop, True)
-    test_maze(base_pth_img, base_pth_prop, algo, prop, True)
-    test_flappy_bird(base_pth_img, base_pth_prop, algo, prop, True)
-    test_monza(base_pth_img, base_pth_prop, algo, prop, True)
-    test_window(base_pth_img, base_pth_prop, algo, prop, True)
-    test_tower(base_pth_img, base_pth_prop, algo, prop, True)
-    test_room(base_pth_img, base_pth_prop, algo, prop, True)
+    test_maze(base_pth_img, base_pth_prop, algo, prop, False)
+    test_flappy_bird(base_pth_img, base_pth_prop, algo, prop, False)
+    test_monza(base_pth_img, base_pth_prop, algo, prop, False)
+    test_window(base_pth_img, base_pth_prop, algo, prop, False)
+    test_tower(base_pth_img, base_pth_prop, algo, prop, False)
+    test_room(base_pth_img, base_pth_prop, algo, prop, False)

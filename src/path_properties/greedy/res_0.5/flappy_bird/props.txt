@@ -1,4 +1,4 @@
-greedy algorithm applied on flappy_bird map with resolution 0.5 took 0.67751145362854 seconds to plan.
+greedy algorithm applied on flappy_bird map with resolution 0.5 took 0.6597771644592285 seconds to plan.
 Successful Path?: False
 Final path has collisions?: False
 Reached Goal?: False

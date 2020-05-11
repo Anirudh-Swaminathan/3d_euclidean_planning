@@ -1,4 +1,4 @@
-greedy algorithm applied on maze map with resolution 0.5 took 1.654285192489624 seconds to plan.
+greedy algorithm applied on maze map with resolution 0.5 took 1.6802692413330078 seconds to plan.
 Successful Path?: False
 Final path has collisions?: False
 Reached Goal?: False
