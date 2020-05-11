@@ -1,0 +1,7 @@
+a_star_l2 algorithm applied on window map with resolution 0.5 took 23.01175832748413 seconds to plan.
+Successful Path?: True
+Final path has collisions?: False
+Reached Goal?: True
+Path Length: 26.923689312512547
+Number of nodes in path: 48
+Number of nodes explored: 4417

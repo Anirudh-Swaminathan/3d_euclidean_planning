@@ -1,4 +1,4 @@
-greedy_no_collide algorithm applied on single_cube map with resolution 0.5 took 0.023616313934326172 seconds to plan.
+greedy_no_collide algorithm applied on single_cube map with resolution 0.5 took 0.02246713638305664 seconds to plan.
 Successful Path?: True
 Final path has collisions?: False
 Reached Goal?: True

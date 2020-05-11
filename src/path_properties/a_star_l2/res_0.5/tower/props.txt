@@ -1,0 +1,7 @@
+a_star_l2 algorithm applied on tower map with resolution 0.5 took 21.10184073448181 seconds to plan.
+Successful Path?: True
+Final path has collisions?: False
+Reached Goal?: True
+Path Length: 32.80032528846983
+Number of nodes in path: 49
+Number of nodes explored: 2447

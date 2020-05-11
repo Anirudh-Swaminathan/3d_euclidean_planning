@@ -1,0 +1,7 @@
+a_star_l2 algorithm applied on flappy_bird map with resolution 0.5 took 11.216149806976318 seconds to plan.
+Successful Path?: True
+Final path has collisions?: False
+Reached Goal?: True
+Path Length: 25.591883092036785
+Number of nodes in path: 42
+Number of nodes explored: 3445

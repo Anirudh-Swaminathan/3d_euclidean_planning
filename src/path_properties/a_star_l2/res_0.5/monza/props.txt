@@ -1,0 +1,7 @@
+a_star_l2 algorithm applied on monza map with resolution 0.5 took 5.57374906539917 seconds to plan.
+Successful Path?: True
+Final path has collisions?: False
+Reached Goal?: True
+Path Length: 78.2417368349782
+Number of nodes in path: 152
+Number of nodes explored: 3140
