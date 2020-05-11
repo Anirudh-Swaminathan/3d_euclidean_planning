@@ -1,0 +1,7 @@
+greedy_no_collide algorithm applied on monza map with resolution 0.5 took 2.3280906677246094 seconds to plan.
+Successful Path?: False
+Final path has collisions?: False
+Reached Goal?: False
+Path Length: 1000.0
+Number of nodes in path: 2001
+Number of nodes explored: 2000

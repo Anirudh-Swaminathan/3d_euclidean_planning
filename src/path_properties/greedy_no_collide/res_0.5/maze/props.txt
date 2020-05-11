@@ -1,0 +1,7 @@
+greedy_no_collide algorithm applied on maze map with resolution 0.5 took 16.248193979263306 seconds to plan.
+Successful Path?: False
+Final path has collisions?: False
+Reached Goal?: False
+Path Length: 1000.0
+Number of nodes in path: 2001
+Number of nodes explored: 2000

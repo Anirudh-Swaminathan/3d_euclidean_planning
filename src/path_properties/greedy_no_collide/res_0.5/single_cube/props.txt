@@ -1,0 +1,7 @@
+greedy_no_collide algorithm applied on single_cube map with resolution 0.5 took 0.013143062591552734 seconds to plan.
+Successful Path?: True
+Final path has collisions?: False
+Reached Goal?: True
+Path Length: 8.000000000000004
+Number of nodes in path: 17
+Number of nodes explored: 16
