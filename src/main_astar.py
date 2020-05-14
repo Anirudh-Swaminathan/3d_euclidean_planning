@@ -331,4 +331,4 @@ if __name__ == "__main__":
     # test_monza(base_pth_img, base_pth_prop, algo, prop, True)
     # test_window(base_pth_img, base_pth_prop, algo, prop, True)
     # test_tower(base_pth_img, base_pth_prop, algo, prop, True)
-    # test_room(base_pth_img, base_pth_prop, algo, prop, True)
+    test_room(base_pth_img, base_pth_prop, algo, prop, True)

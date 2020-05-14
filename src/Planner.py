@@ -228,7 +228,7 @@ class CollisionPlanner:
 
 
 def thas(t):
-    return str(t[0]) + str(t[1]) + str(t[2])
+    return t
 
 
 class AStarPlanner:
@@ -247,6 +247,34 @@ class AStarPlanner:
             abblk = aabb.create_from_points(ab)
             # print(mi.shape, ma.shape, ab.shape, abblk.shape)
             self.blk_list.append(abblk)
+
+    def l2_dist(self, s, e):
+        """
+        return the L2 distance between 2 points
+        :param s: node 1
+        :param e: node 2
+        :return: L2 distance between s and e
+        """
+        return np.sqrt(sum((s - e) ** 2))
+
+    def l_inf_dist(self, s, e):
+        """
+        return the L infinity distance between 2 points
+        :param s: node 1
+        :param e: node 2
+        :return: l_inf distance between s and e
+        """
+        return np.amax(s - e)
+
+    def heuristic(self, n, goal):
+        """
+        return the heuristic between current node and goal
+        :param n: current node
+        :param goal: goal node
+        :return: heuristic function
+        """
+        # function can either be L2 or L_inf
+        return self.l2_dist(n, goal)
 
     def intersect(self, start, end, k):
         fst = 0
@@ -319,7 +347,7 @@ class AStarPlanner:
         dat['coord'] = start
         dat['g'] = 0.0
         gs[hs] = 0.0
-        dat['h'] = sum((start - goal) ** 2)
+        dat['h'] = self.heuristic(start, goal)
         dat['f'] = dat['g'] + dat['h']
         pd = (None, None)
         parents[hs] = pd
@@ -337,7 +365,8 @@ class AStarPlanner:
             i_ind = np.array(i_dat['ind'])
             # i_ind = np.array(i[0])
             i_coord = np.array(i_dat['coord'])
-            i_to_g = np.sqrt(sum((i_coord - goal) ** 2))
+            # i_to_g = np.sqrt(sum((i_coord - goal) ** 2))
+            i_to_g = self.l2_dist(i_coord, goal)
             if i_to_g <= thresh:
                 if self.reachable_goal(i_coord, goal):
                     print("Goal reached!!")
@@ -377,9 +406,9 @@ class AStarPlanner:
                 # cs = np.array([2.07313218, 3.56684973, 0.75795371])
                 # ce = np.array([2.2028887, 0.95360107, 0.75795371])
                 # the potential g value
-                upg = i_dat['g'] + np.sqrt(sum((i_coord - next) ** 2))
+                upg = i_dat['g'] + self.l2_dist(i_coord, next)
                 # heuristic for next node
-                hj = np.sqrt(sum((next - goal) ** 2))
+                hj = self.heuristic(next, goal)
                 ni = thas(tuple(next_ind))
                 # ni = tuple(next_ind)
                 if ni not in gs.keys():
@@ -392,7 +421,7 @@ class AStarPlanner:
                     #         and abs(sum(next - ce)) <= 1e-4:
                     #     print("MONZA - Now it does NOT detect a collision!!")
                     gs[ni] = upg
-                    assert (np.sqrt((sum((i_coord - next) ** 2))) <= 1e-4 + 2.0 * thresh)
+                    assert (self.l2_dist(i_coord, next) <= 1e-4 + 2.0 * thresh)
                     parents[ni] = (tuple(i_ind), tuple(i_coord))
                     next_dat = dict()
                     next_dat['coord'] = next
@@ -403,7 +432,7 @@ class AStarPlanner:
                     pq[ni] = next_dat
                     # check if newly inserted is goal
                     # if yes, update g_tau
-                    if np.sqrt(sum((next - goal) ** 2)) <= 1e-4 + thresh:
+                    if self.l2_dist(next, goal) <= 1e-4 + thresh:
                         if self.reachable_goal(next, goal):
                             g_tau = min(g_tau, upg + hj)
 
@@ -423,11 +452,12 @@ class AStarPlanner:
         prev = parents[cur][1]
         while prev is not None:
             print(len(path))
-            if np.sqrt(sum((np.array(prev) - path[-1]) ** 2)) > 2.0*thresh + 1e-4:
+            print(type(prev), prev)
+            if self.l2_dist(np.array(prev), path[-1]) > 2.0*thresh + 1e-4:
                 print("NOOOO!")
                 print("prev: {}; cur: {}\nparents[cur]: {}; hash(par): {}".format(prev, cur, parents[cur],
                                                                                   thas(parents[cur][0])))
-            assert (np.sqrt(sum((np.array(prev) - path[-1]) ** 2)) <= 1e-4 + 2.0 * thresh)
+            assert (self.l2_dist(np.array(prev), path[-1]) <= 1e-4 + 2.0 * thresh)
             path.append(np.array(prev))
             cur = thas(parents[cur][0])
             # cur = parents[cur][0]
@@ -439,6 +469,6 @@ class AStarPlanner:
         if id(cur) is not id(thas(s)):
             print("cur: {}; thas(s): {}".format(cur, thas(s)))
             print("id(cur): {}; id(s): {}".format(id(cur), id(thas(s))))
-        # assert (id(cur) == id(thas(s)))
+        assert (hash(cur) == hash(thas(s)))
         assert (abs(sum(path[0] - start)) < 1e-4)
         return np.array(path), numConsidered

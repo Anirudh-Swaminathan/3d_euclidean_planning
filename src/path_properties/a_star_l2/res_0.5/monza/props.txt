@@ -1,4 +1,4 @@
-a_star_l2 algorithm applied on monza map with resolution 0.5 took 5.57374906539917 seconds to plan.
+a_star_l2 algorithm applied on monza map with resolution 0.5 took 5.346087455749512 seconds to plan.
 Successful Path?: True
 Final path has collisions?: False
 Reached Goal?: True

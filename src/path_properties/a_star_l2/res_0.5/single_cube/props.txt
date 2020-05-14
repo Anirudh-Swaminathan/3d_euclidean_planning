@@ -1,4 +1,4 @@
-a_star_l2 algorithm applied on single_cube map with resolution 0.5 took 0.20993733406066895 seconds to plan.
+a_star_l2 algorithm applied on single_cube map with resolution 0.5 took 0.19847369194030762 seconds to plan.
 Successful Path?: True
 Final path has collisions?: False
 Reached Goal?: True

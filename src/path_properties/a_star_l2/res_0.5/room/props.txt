@@ -1,4 +1,4 @@
-a_star_l2 algorithm applied on room map with resolution 0.5 took 2.7751803398132324 seconds to plan.
+a_star_l2 algorithm applied on room map with resolution 0.5 took 2.7022483348846436 seconds to plan.
 Successful Path?: True
 Final path has collisions?: False
 Reached Goal?: True
