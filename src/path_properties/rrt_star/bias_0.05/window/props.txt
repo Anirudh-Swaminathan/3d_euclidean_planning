@@ -1,0 +1,6 @@
+rrt_star algorithm applied on window map took 30.005617141723633 seconds to plan.
+Successful Path?: True
+Final path has collisions?: False
+Reached Goal?: True
+Path Length: 24.212711733141326
+Number of nodes in path: 9

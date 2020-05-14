@@ -1,0 +1,6 @@
+rrt_star algorithm applied on monza map took 1800.1179440021515 seconds to plan.
+Successful Path?: True
+Final path has collisions?: False
+Reached Goal?: True
+Path Length: 73.1973222501081
+Number of nodes in path: 62

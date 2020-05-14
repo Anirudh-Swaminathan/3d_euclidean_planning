@@ -1,0 +1,6 @@
+rrt_star algorithm applied on room map took 30.027439832687378 seconds to plan.
+Successful Path?: True
+Final path has collisions?: False
+Reached Goal?: True
+Path Length: 10.842737620186444
+Number of nodes in path: 7

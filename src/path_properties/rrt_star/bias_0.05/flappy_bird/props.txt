@@ -1,0 +1,6 @@
+rrt_star algorithm applied on flappy_bird map took 300.0272192955017 seconds to plan.
+Successful Path?: True
+Final path has collisions?: False
+Reached Goal?: True
+Path Length: 25.0388667897697
+Number of nodes in path: 20

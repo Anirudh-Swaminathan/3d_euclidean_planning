@@ -1,0 +1,6 @@
+rrt_star algorithm applied on tower map took 30.03408908843994 seconds to plan.
+Successful Path?: True
+Final path has collisions?: False
+Reached Goal?: True
+Path Length: 30.986788100279863
+Number of nodes in path: 17

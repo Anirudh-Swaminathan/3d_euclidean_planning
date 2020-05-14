@@ -1,0 +1,6 @@
+rrt_star algorithm applied on maze map took 300.0162208080292 seconds to plan.
+Successful Path?: True
+Final path has collisions?: False
+Reached Goal?: True
+Path Length: 76.40387484679071
+Number of nodes in path: 76.40387484679071

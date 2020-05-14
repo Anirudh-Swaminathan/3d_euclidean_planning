@@ -1,0 +1,6 @@
+rrt_star algorithm applied on single_cube map took 300.06544756889343 seconds to plan.
+Successful Path?: True
+Final path has collisions?: False
+Reached Goal?: True
+Path Length: 7.872196451581818
+Number of nodes in path: 3
