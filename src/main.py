@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+# Created by anicodebreaker on May 10, 2020
 import Planner
 from pathlib import Path
 import numpy as np
@@ -7,7 +10,7 @@ import matplotlib.pyplot as plt
 plt.ion()
 from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
-from pyrr import line, ray, geometric_tests, aabb
+from pyrr import aabb
 
 
 def tic():
@@ -23,9 +26,9 @@ def toc(tstart, nm=""):
 def load_map(fname):
     """
   Loads the bounady and blocks from map file fname.
-  
+
   boundary = [['xmin', 'ymin', 'zmin', 'xmax', 'ymax', 'zmax','r','g','b']]
-  
+
   blocks = [['xmin', 'ymin', 'zmin', 'xmax', 'ymax', 'zmax','r','g','b'],
             ...,
             ['xmin', 'ymin', 'zmin', 'xmax', 'ymax', 'zmax','r','g','b']]
@@ -86,6 +89,90 @@ def draw_block_list(ax, blocks):
         return h
 
 
+def intersect(start, end, box):
+    fst = 0
+    fet = 1
+    # print(box.shape)
+    bomin = aabb.minimum(box)
+    bomax = aabb.maximum(box)
+    # print(bomin.shape, bomax.shape)
+    for i in range(3):
+        bmin = bomin[i]
+        bmax = bomax[i]
+        si = start[i]
+        ei = end[i]
+        if si < ei:
+            if si > bmax or ei < bmin:
+                return False
+            di = ei - si
+            st = (bmin - si) / di if si < bmin else 0
+            et = (bmax - si) / di if ei > bmax else 1
+        else:
+            if ei > bmax or si < bmin:
+                return False
+            di = ei - si
+            st = (bmax - si) / di if si > bmax else 0
+            et = (bmin - si) / di if ei < bmin else 1
+        if st > fst:
+            fst = st
+        if et < fet:
+            fet = et
+        if fet < fst:
+            return False
+    return True
+
+
+def check_collision(bo, bl, pth):
+    """
+    A method to check for any collisions with objects in the path
+    :param bo: boundary
+    :param bl: blocks
+    :param pth: path to check collisions for
+    :return: collided boolean -> True if collision occured. False if not
+    """
+    node = pth[0]
+    # create a list of AABBs for pyrr
+    blk_list = list()
+    for k in range(bl.shape[0]):
+        mi = bl[k, :3].reshape(1, 3)
+        ma = bl[k, 3:6].reshape(1, 3)
+        ab = np.vstack((mi, ma))
+        abblk = aabb.create_from_points(ab)
+        # print(mi.shape, ma.shape, ab.shape, abblk.shape)
+        blk_list.append(abblk)
+
+    for i in range(1, len(pth)):
+        next = pth[i]
+        # Check if this direction is valid
+        # Checking if the considered node is outside the bounds
+        if (next[0] < bo[0, 0] or next[0] > bo[0, 3] or
+                next[1] < bo[0, 1] or next[1] > bo[0, 4] or
+                next[2] < bo[0, 2] or next[2] > bo[0, 5]):
+            print("Collision occurred at index: {}\n Path went out of bounds!".format(i))
+            return True
+
+        # loop through all the blocks in the environment
+        for k in range(bl.shape[0]):
+            # check if next node is inside some block
+            if (bl[k, 0] < next[0] < bl[k, 3] and
+                    bl[k, 1] < next[1] < bl[k, 4] and
+                    bl[k, 2] < next[2] < bl[k, 5]):
+                print("Collision occurred at index {}, for block index {}.\nNew node is inside the block!".format(i, k))
+                return True
+            # check if ray from node to next intersects AABB
+            rfi = intersect(node, next, blk_list[k])
+            rbi = intersect(next, node, blk_list[k])
+            if rfi and rbi:
+                # it means the collision occurred, and it occurred in-between the points
+                print("Collision occurred at index {}, for block index {}.\nCollision occurred between these 2 points!"
+                      .format(i, k))
+                print("The start point is {} and the end point is {}.\nThe bbox is parameterized as {}"
+                      .format(node, next, blk_list[k]))
+                return True
+        node = next
+    return False
+
+
 def runtest(mapfile, start, goal, bpi, bpp, a, p, mpn, verbose=True):
     """
   This function:
@@ -99,13 +186,19 @@ def runtest(mapfile, start, goal, bpi, bpp, a, p, mpn, verbose=True):
     boundary, blocks = load_map(mapfile)
     pth_im = "{}{}/res_{}/{}/".format(bpi, a, p, mpn)
     pth_pr = "{}{}/res_{}/{}/".format(bpp, a, p, mpn)
-    MP = Planner.MyPlanner(boundary, blocks, p)  # TODO: replace this with your own planner implementation
+
+    # TODONE: replace this with your own planner implementation
+    MP = Planner.AStarPlanner(boundary, blocks, p)
 
     # Display the environment
     if verbose:
         fig, ax, hb, hs, hg = draw_map(boundary, blocks, start, goal)
 
-        # Call the motion planner
+    print("This map is bound from {} to {}".format(boundary[0, :3], boundary[0, 3:6]))
+    nNodes = ((boundary[0, 3] - boundary[0, 0]) / p) * ( (boundary[0, 4] - boundary[0, 1]) / p)\
+             * ( (boundary[0, 5] - boundary[0, 2]) / p)
+    print("Total Number of possible states is: {}".format(nNodes))
+    # Call the motion planner
     t0 = tic()
     path, numVisNodes = MP.plan(start, goal)
     dur = toc(t0, "{} algorithm applied on {} map with resolution {}".format(a, mpn, p))
@@ -117,14 +210,14 @@ def runtest(mapfile, start, goal, bpi, bpp, a, p, mpn, verbose=True):
         try:
             Path(pth_im).mkdir(parents=True, exist_ok=True)
             plt.savefig(pth_im + "path.png", bbox_inches='tight')
+            plt.show(block=True)
         except Exception as e:
             print("Error! Could not save image! Message is {}.".format(e))
 
-    # TODO: You should verify whether the path actually intersects any of the obstacles in continuous space
-    # TODO: You can implement your own algorithm or use an existing library for segment and
+    # TODONE: You should verify whether the path actually intersects any of the obstacles in continuous space
+    # TODONE: You can implement your own algorithm or use an existing library for segment and
     #       axis-aligned bounding box (AABB) intersection
-    # collision = check_collision(boundary, blocks, path)
-    collision = False
+    collision = check_collision(boundary, blocks, path)
     if collision:
         print("Collision Occurred!")
     else:
@@ -138,7 +231,9 @@ def runtest(mapfile, start, goal, bpi, bpp, a, p, mpn, verbose=True):
         with open(pth_pr + "props.txt", "w") as f:
             f.write(
                 "{} algorithm applied on {} map with resolution {} took {} seconds to plan.\n".format(a, mpn, p, dur))
-            f.write("Reached Goal?: {}\n".format(success))
+            f.write("Successful Path?: {}\n".format(success))
+            f.write("Final path has collisions?: {}\n".format(collision))
+            f.write("Reached Goal?: {}\n".format(goal_reached))
             f.write("Path Length: {}\n".format(pathlength))
             f.write("Number of nodes in path: {}\n".format(numPthNodes))
             f.write("Number of nodes explored: {}\n".format(numVisNodes))
@@ -227,13 +322,13 @@ if __name__ == "__main__":
     base_pth_prop = "./path_properties/"
 
     # resolution of discretization of planner
-    algo = "greedy"
+    algo = "a_star_l2"
     # property -> resolution for A*; sampling weight to goal for RRT*
     prop = 0.5
-    test_single_cube(base_pth_img, base_pth_prop, algo, prop, False)
-    test_maze(base_pth_img, base_pth_prop, algo, prop, False)
-    test_flappy_bird(base_pth_img, base_pth_prop, algo, prop, False)
-    test_monza(base_pth_img, base_pth_prop, algo, prop, False)
-    test_window(base_pth_img, base_pth_prop, algo, prop, False)
-    test_tower(base_pth_img, base_pth_prop, algo, prop, False)
-    test_room(base_pth_img, base_pth_prop, algo, prop, False)
+    # test_single_cube(base_pth_img, base_pth_prop, algo, prop, True)
+    # test_maze(base_pth_img, base_pth_prop, algo, prop, True)
+    # test_flappy_bird(base_pth_img, base_pth_prop, algo, prop, True)
+    # test_monza(base_pth_img, base_pth_prop, algo, prop, True)
+    # test_window(base_pth_img, base_pth_prop, algo, prop, True)
+    # test_tower(base_pth_img, base_pth_prop, algo, prop, True)
+    test_room(base_pth_img, base_pth_prop, algo, prop, True)
