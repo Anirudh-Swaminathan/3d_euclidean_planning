@@ -9,16 +9,19 @@ The following are the list of source files relevant to the proper implementation
 
 These are the main, final files for the project.
 
-- src/main.py           -> The main.py file which contains the final implementation of my planning algorithm in the given 3D continuous space
+- src/main.py           -> The main.py file which contains the final implementation of my planning algorithm in the given 3D continuous space. This is a copy of main_astar.py
 - src/main_astar.py     -> The main file that uses the A\* class file to run the implementation of the A\* algorithm on the given environments
 - src/main_original.py  -> A copy of the original file provided to us, in case I make any mistakes
-- src/Planner.py        -> Provided file that houses all the classes of all the different planners. This includes A\*, sample greedy planner, sample greedy planer with collision checking and RRT\* planner.
+- src/Planner.py        -> Provided file that houses all the classes of all the different planners. This includes A\*, sample greedy planner and sample greedy planer with collision checking.
+- src/main_ompl.py      -> The main file that uses the OMPLPlanner.py to plan the RRT\* algorithm using the OMPL library.
+- src/OMPLPlanner.py    -> The file that houses the RRTStarPlanner class file to implement OMPL library code for planning.
 
 ### Auxillary Source Files
 
 These are the auxillary source files that I implemented to build my final solution.
 
 - src/main_collision.py   -> This file uses collision checking on the given greedy algorithm file
+- src/main_greedy.py      -> This file just implements the provided greedy algorithm as a very raw baseline.
 
 ### Extra Source Files
 
@@ -45,3 +48,6 @@ These are the source files that I implemented to learn and understand the tools 
  ```bash
  python main.py
  ```
+
+### Acknowledgements
+The collision checking code in the pyrr library was buggy, and thanks to Piazza posts in the class, I was able to see a C++ implementation provided [here](http://www.garagegames.com/community/blogs/view/309), and was able to adapt it to Python for the collision checking.
